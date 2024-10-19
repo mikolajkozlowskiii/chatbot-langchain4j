@@ -1,4 +1,4 @@
-# Simple Chatbot using Spring Boot, LangChain4j and Ollama
+# Simple RAG Chatbot using Spring Boot, LangChain4j and Ollama
 
 This project is a simple chatbot implementation using Spring Boot, Ollama (a platform for running LLMs on local machine) and LangChain (a framework for using LLMs in app). The chatbot can respond to user queries using a predefined knowledge base and natural language processing.
 
