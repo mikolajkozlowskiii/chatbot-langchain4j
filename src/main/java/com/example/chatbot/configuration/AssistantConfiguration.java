@@ -39,16 +39,17 @@ public class AssistantConfiguration {
             Questions that you would receive are: give all seafood options in the menu, most affordable or expensive option in the menu, prices, all related to the menu of the restaurant, do you have any pizzas?
             Please do not forget to answer complete sentences and also review all menu as If i request options with lemon, you must guarantee that you are give me all possible options with lemon.
             """;
+    private static final String RESOURCES_PATH = "static/documents/";
 
     @Bean
     @SessionScope
     public Assistant assistant() throws URISyntaxException {
-        List<Document> document = loadDocuments(toPath("static/documents/"), glob("*.txt"));
+        final List<Document> documents = loadDocuments(toPath(), glob());
         return AiServices.builder(Assistant.class)
                 .systemMessageProvider(chatMemoryId -> SYSTEM_MESSAGE)
                 .chatLanguageModel(chatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
-                .contentRetriever(createContentRetriever(document))
+                .contentRetriever(createContentRetriever(documents))
                 .build();
     }
 
@@ -58,13 +59,13 @@ public class AssistantConfiguration {
         return EmbeddingStoreContentRetriever.from(embeddingStore);
     }
 
-    private static Path toPath(String relativePath) throws URISyntaxException {
-        URL fileUrl = ChatbotService.class.getClassLoader().getResource(relativePath);
+    private static Path toPath() throws URISyntaxException {
+        URL fileUrl = ChatbotService.class.getClassLoader().getResource(RESOURCES_PATH);
         assert fileUrl != null;
         return Paths.get(fileUrl.toURI());
     }
 
-    private static PathMatcher glob(String glob) {
-        return FileSystems.getDefault().getPathMatcher("glob:" + glob);
+    private static PathMatcher glob() {
+        return FileSystems.getDefault().getPathMatcher("glob:" + "*.txt");
     }
 }

@@ -24,7 +24,7 @@ public class Langchain4jConfiguration {
     private String baseUrl;
 
     @Bean
-    ChatLanguageModel chatLanguageModel(){
+    public ChatLanguageModel chatLanguageModel(){
         return OllamaChatModel.builder()
                 .modelName(modelName)
                 .baseUrl(baseUrl)
@@ -32,17 +32,17 @@ public class Langchain4jConfiguration {
     }
 
     @Bean
-    EmbeddingModel embeddingModel(){
+    public EmbeddingModel embeddingModel(){
         return new AllMiniLmL6V2QuantizedEmbeddingModel();
     }
 
     @Bean
-    EmbeddingStore embeddingStore(){
+    public EmbeddingStore embeddingStore(){
         return new InMemoryEmbeddingStore<>();
     }
 
     @Bean
-    EmbeddingStoreIngestor embeddingStoreIngestor(){
+    public EmbeddingStoreIngestor embeddingStoreIngestor(){
         return EmbeddingStoreIngestor.builder()
                 .documentSplitter(DocumentSplitters.recursive(300,0))
                 .embeddingStore(embeddingStore())
