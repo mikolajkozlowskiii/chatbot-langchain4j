@@ -34,7 +34,7 @@ public class AssistantConfiguration {
     @Bean
     @SessionScope
     public Assistant assistant() throws URISyntaxException {
-        List<Document> document = loadDocuments(toPath("documents/"), glob("*.txt"));
+        List<Document> document = loadDocuments(toPath("static/documents/"), glob("*.txt"));
         return AiServices.builder(Assistant.class)
                 // .systemMessageProvider(chatMemoryId -> systemMessage)
                 .chatLanguageModel(chatLanguageModel)

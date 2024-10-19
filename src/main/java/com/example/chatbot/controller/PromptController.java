@@ -1,5 +1,6 @@
 package com.example.chatbot.controller;
 
+import com.example.chatbot.service.ChatbotService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/chat/")
 @RequiredArgsConstructor
 public class PromptController {
+    private final ChatbotService chatbotService;
 
     @PostMapping
     public ResponseEntity<String> generateResponse(@RequestBody String prompt){
-        return null;
+        return ResponseEntity.ok(chatbotService.getResponse(prompt));
     }
 }
