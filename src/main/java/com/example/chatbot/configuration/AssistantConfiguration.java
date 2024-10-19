@@ -31,12 +31,21 @@ import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.load
 public class AssistantConfiguration {
     private final ChatLanguageModel chatLanguageModel;
 
+    private static final String SYSTEM_MESSAGE = """
+            You are a chat rag for a italian restaurant with a menu as a database knowledge.
+            You are giving responses ONLY in english language.
+            You can chat with customers and provide them answers.
+            Ff there is a prompt that you don't know, then you answer, that you dont have that information.
+            Questions that you would receive are: give all seafood options in the menu, most affordable or expensive option in the menu, prices, all related to the menu of the restaurant, do you have any pizzas?
+            Please do not forget to answer complete sentences and also review all menu as If i request options with lemon, you must guarantee that you are give me all possible options with lemon.
+            """;
+
     @Bean
     @SessionScope
     public Assistant assistant() throws URISyntaxException {
         List<Document> document = loadDocuments(toPath("static/documents/"), glob("*.txt"));
         return AiServices.builder(Assistant.class)
-                // .systemMessageProvider(chatMemoryId -> systemMessage)
+                .systemMessageProvider(chatMemoryId -> SYSTEM_MESSAGE)
                 .chatLanguageModel(chatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .contentRetriever(createContentRetriever(document))
